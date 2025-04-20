@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Checkbox } from "../ui/checkbox";
 
-type Props = {
+export type FilterCheckBoxProps = {
   text: string;
   value: string;
   endAdornment?: ReactNode;
@@ -15,7 +15,7 @@ export const FilterCheckbox = ({
   endAdornment,
   onCheckedChange,
   checked,
-}: Props) => {
+}: FilterCheckBoxProps) => {
   return (
     <div className="flex items-center space-x-2">
       <Checkbox
