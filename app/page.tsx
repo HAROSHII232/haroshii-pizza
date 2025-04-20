@@ -55,7 +55,7 @@ const PRODUCTS_LIST = [
       "https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp",
     items: [{ price: 550 }],
   },
-]
+];
 
 export default function Home() {
   return (
@@ -80,6 +80,16 @@ export default function Home() {
                 title={"Пиццы"}
                 items={PRODUCTS_LIST}
                 categoryId={1}
+              />
+              <ProductsGroupList
+                title={"Комбо"}
+                items={PRODUCTS_LIST}
+                categoryId={2}
+              />
+              <ProductsGroupList
+                title={"Закуски"}
+                items={PRODUCTS_LIST}
+                categoryId={3}
               />
             </div>
           </section>
