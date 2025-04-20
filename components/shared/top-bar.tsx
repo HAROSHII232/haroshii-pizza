@@ -9,7 +9,7 @@ type Props = {
 
 export const TopBar = ({ className }: Props) => {
   return (
-    <div
+    <nav
       className={cn(
         "sticky top-0 bg-white/75 py-5 shadow-lg shadow-black/5 z-10 backdrop-blur-sm",
         className
@@ -19,6 +19,6 @@ export const TopBar = ({ className }: Props) => {
         <Categories />
         <SortPopup />
       </Container>
-    </div>
+    </nav>
   );
 };
