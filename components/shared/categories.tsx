@@ -1,36 +1,41 @@
+"use client";
+
 import { cn } from "@/shared/lib";
+import { useCategoryStore } from "@/store/category";
 
 type Props = {
   className?: string;
 };
 
 const CATEGORIES_LIST = [
-  "Пиццы",
-  "Комбо",
-  "Закуски",
-  "Коктейли",
-  "Кофе",
-  "Напитки",
-  "Десерты",
-  "Десерты",
+  { id: 1, name: "Пиццы" },
+  { id: 2, name: "Комбо" },
+  { id: 3, name: "Закуски" },
+  { id: 4, name: "Коктейли" },
+  { id: 5, name: "Кофе" },
+  { id: 6, name: "Напитки" },
+  { id: 7, name: "Десерты" },
+  { id: 8, name: "Десерты" },
 ];
-const ACTIVE_INDEX = 0;
 
 export const Categories = ({ className }: Props) => {
+  const categoryActiveId = useCategoryStore((state) => state.activeId);
+
   return (
     <div
       className={cn("inline-flex gap-1 bg-gray-50 p-1 rounded-2xl", className)}
     >
-      {CATEGORIES_LIST.map((category, index) => (
+      {CATEGORIES_LIST.map(({ name, id }, index) => (
         <a
           key={index}
           className={cn(
             "flex items-center font-bold h-11 px-5 rounded-2xl",
-            ACTIVE_INDEX === index &&
+            categoryActiveId === id &&
               "bg-white shadow-md shadow-gray-200 text-primary"
           )}
+          href={`/#${name}`}
         >
-          <button>{category}</button>
+          <button>{name}</button>
         </a>
       ))}
     </div>
