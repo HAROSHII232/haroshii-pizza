@@ -1,22 +1,40 @@
 "use client";
 
+import { API } from "@/services/api-client";
 import { cn } from "@/shared/lib";
+import { Product } from "@prisma/client";
 import { Search } from "lucide-react";
 import Link from "next/link";
-import { useRef, useState } from "react";
-import { useClickAway } from "react-use";
+import { useEffect, useRef, useState } from "react";
+import { useClickAway, useDebounce } from "react-use";
 
 type Props = {
   className?: string;
 };
 
 export const SearchInput = ({ className }: Props) => {
+  const [searchQuery, setSearchQuery] = useState("");
   const [focused, setFocused] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
   const ref = useRef(null);
+
+  useDebounce(
+    () => {
+      API.products.search(searchQuery).then((items) => setProducts(items));
+    },
+    250,
+    [searchQuery]
+  );
 
   useClickAway(ref, () => {
     setFocused(false);
   });
+
+  const onClickItem = () => {
+    setFocused(false);
+    setSearchQuery("");
+    setProducts([]);
+  };
 
   return (
     <>
@@ -37,26 +55,34 @@ export const SearchInput = ({ className }: Props) => {
           type="text"
           placeholder="Найти пиццу..."
           onFocus={() => setFocused(true)}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
 
-        <div
-          className={cn(
-            "absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30",
-            focused && "visible opacity-100 top-12"
-          )}
-        >
-          <Link
-            href={"/product/1"}
-            className="flex items-center gap-3 px-3 py-2 hover:bg-primary/10"
+        {products.length > 0 && (
+          <div
+            className={cn(
+              "absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30",
+              focused && "visible opacity-100 top-12"
+            )}
           >
-            <img
-              className="rounded-sm h-8 w-8"
-              src="https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp"
-              alt="pizza 1"
-            />
-            <span>Pizza 1</span>
-          </Link>
-        </div>
+            {products.map((product) => (
+              <Link
+                key={product.id}
+                href={`/product/${product.id}`}
+                className="flex items-center gap-3 px-3 py-2 hover:bg-primary/10"
+                onClick={onClickItem}
+              >
+                <img
+                  className="rounded-sm h-8 w-8"
+                  src={product.imageUrl}
+                  alt={product.name}
+                />
+                <span>{product.name}</span>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );
