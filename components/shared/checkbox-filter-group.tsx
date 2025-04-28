@@ -12,10 +12,12 @@ type Props = {
   defaultItems: Item[];
   limit?: number;
   searchInputPlaceholder?: string;
-  onChange?: (values: string[]) => void;
+  onClickCheckbox?: (id: string) => void;
   defaultValue?: string[];
   className?: string;
-  loading?: boolean;
+  isLoading?: boolean;
+  selectedIds?: Set<string>;
+  name?: string;
 };
 
 export const CheckboxFilterGroup = ({
@@ -25,8 +27,10 @@ export const CheckboxFilterGroup = ({
   limit = 5,
   searchInputPlaceholder = "Поиск...",
   className,
-  loading,
-  onChange,
+  isLoading,
+  onClickCheckbox,
+  selectedIds,
+  name,
   defaultValue,
 }: Props) => {
   const [showAll, setShowAll] = useState(false);
@@ -46,13 +50,14 @@ export const CheckboxFilterGroup = ({
     setShowAll(!showAll);
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className={className}>
         <p className="font-bold mb-3">{title}</p>
-        {...Array(limit).fill(0).map((_, index) => (
+        {Array.from({ length: limit }, (_, index) => (
           <Skeleton key={index} className="h-6 mb-4 rounded-[8px]" />
         ))}
+        <Skeleton className="w-28 h-6 mb-4 rounded-[8px]" />
       </div>
     );
   }
@@ -72,12 +77,13 @@ export const CheckboxFilterGroup = ({
       <div className="flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar">
         {visibleItems.map((item) => (
           <FilterCheckbox
-            onCheckedChange={(ids) => console.log(ids)}
-            checked={false}
+            onCheckedChange={() => onClickCheckbox?.(item.value)}
+            checked={selectedIds?.has(item.value)}
             key={String(item.value)}
             value={item.value}
             text={item.text}
             endAdornment={item.endAdornment}
+            name={name}
           />
         ))}
       </div>
