@@ -7,24 +7,25 @@ import { Input } from "../ui";
 import { CheckboxFilterGroup } from "./checkbox-filter-group";
 import { RangeSlider } from "./range-slider";
 import { Title } from "./title";
+import qs from "qs";
+import { useRouter } from "next/navigation";
 
 type Props = {
   className?: string;
 };
 
 type PriceProps = {
-  priceFrom: number;
-  priceTo: number;
+  priceFrom?: number;
+  priceTo?: number;
 };
 
 export const Filters = ({ className }: Props) => {
+  const router = useRouter();
+
   const { ingredients, isLoading, onAddId, selectedIngredients } =
     useFilterIngredients();
 
-  const [prices, setPrice] = useState<PriceProps>({
-    priceFrom: 0,
-    priceTo: 1000,
-  });
+  const [prices, setPrice] = useState<PriceProps>({});
 
   const [sizes, { toggle: toggleSizes }] = useSet(new Set<string>([]));
   const [pizzaTypes, { toggle: togglePizzaTypes }] = useSet(
@@ -44,8 +45,19 @@ export const Filters = ({ className }: Props) => {
   };
 
   useEffect(() => {
-    console.log({ prices, pizzaTypes, sizes, selectedIngredients });
-  }, [prices, pizzaTypes, sizes, selectedIngredients]);
+    const filters = {
+      ...prices,
+      pizzaTypes: Array.from(pizzaTypes),
+      sizes: Array.from(sizes),
+      ingredients: Array.from(selectedIngredients),
+    };
+
+    const query = qs.stringify(filters, {
+      arrayFormat: "comma",
+    });
+
+    router.push(`?${query}`);
+  }, [prices, pizzaTypes, sizes, selectedIngredients, router]);
 
   return (
     <div className={className}>
@@ -101,7 +113,7 @@ export const Filters = ({ className }: Props) => {
           min={0}
           max={1000}
           step={10}
-          value={[prices.priceFrom, prices.priceTo]}
+          value={[prices.priceFrom || 0, prices.priceTo || 1000]}
           onValueChange={([priceFrom, priceTo]) => {
             setPrice({ priceFrom, priceTo });
           }}
