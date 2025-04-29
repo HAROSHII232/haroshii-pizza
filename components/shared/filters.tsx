@@ -8,7 +8,7 @@ import { CheckboxFilterGroup } from "./checkbox-filter-group";
 import { RangeSlider } from "./range-slider";
 import { Title } from "./title";
 import qs from "qs";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type Props = {
   className?: string;
@@ -19,17 +19,38 @@ type PriceProps = {
   priceTo?: number;
 };
 
+type QueryFilters = {
+  pizzaTypes: string;
+  sizes: string;
+  ingredients: string;
+} & PriceProps;
+
 export const Filters = ({ className }: Props) => {
+  const searchParams = useSearchParams() as unknown as Map<
+    keyof QueryFilters,
+    string
+  >;
   const router = useRouter();
 
   const { ingredients, isLoading, onAddId, selectedIngredients } =
-    useFilterIngredients();
+    useFilterIngredients(searchParams.get("ingredients")?.split(","));
 
-  const [prices, setPrice] = useState<PriceProps>({});
+  const [prices, setPrice] = useState<PriceProps>({
+    priceFrom: Number(searchParams.get("priceFrom")) || undefined,
+    priceTo: Number(searchParams.get("priceTo")) || undefined,
+  });
 
-  const [sizes, { toggle: toggleSizes }] = useSet(new Set<string>([]));
+  const [sizes, { toggle: toggleSizes }] = useSet(
+    new Set<string>(
+      searchParams.has("sizes") ? searchParams.get("sizes")?.split(",") : []
+    )
+  );
   const [pizzaTypes, { toggle: togglePizzaTypes }] = useSet(
-    new Set<string>([])
+    new Set<string>(
+      searchParams.has("pizzaTypes")
+        ? searchParams.get("pizzaTypes")?.split(",")
+        : []
+    )
   );
 
   const items = ingredients.map((item) => ({
@@ -56,7 +77,7 @@ export const Filters = ({ className }: Props) => {
       arrayFormat: "comma",
     });
 
-    router.push(`?${query}`);
+    router.push(`?${query}`, { scroll: false });
   }, [prices, pizzaTypes, sizes, selectedIngredients, router]);
 
   return (
