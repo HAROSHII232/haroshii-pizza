@@ -6,18 +6,36 @@ import { CheckboxFilterGroup } from "./checkbox-filter-group";
 import { FilterCheckbox } from "./filter-checkbox";
 import { RangeSlider } from "./range-slider";
 import { Title } from "./title";
+import { useState } from "react";
 
 type Props = {
   className?: string;
 };
 
+type PriceProps = {
+  priceFrom: number;
+  priceTo: number;
+};
+
 export const Filters = ({ className }: Props) => {
   const { ingredients, isLoading, onAddId, selectedIds } =
     useFilterIngredients();
+  const [prices, setPrice] = useState<PriceProps>({
+    priceFrom: 0,
+    priceTo: 1000,
+  });
+
   const items = ingredients.map((item) => ({
     value: String(item.id),
     text: item.name,
   }));
+
+  const updatePrice = (name: keyof PriceProps, value: number) => {
+    setPrice({
+      ...prices,
+      [name]: value,
+    });
+  };
 
   return (
     <div className={className}>
@@ -36,11 +54,27 @@ export const Filters = ({ className }: Props) => {
             placeholder="0"
             min={0}
             max={1000}
-            defaultValue={0}
+            value={String(prices.priceFrom)}
+            onChange={(e) => updatePrice("priceFrom", Number(e.target.value))}
           />
-          <Input type="number" min={100} max={1000} placeholder="1000" />
+          <Input
+            type="number"
+            min={100}
+            max={1000}
+            placeholder="1000"
+            value={String(prices.priceTo)}
+            onChange={(e) => updatePrice("priceTo", Number(e.target.value))}
+          />
         </div>
-        <RangeSlider min={0} max={5000} step={10} value={[0, 5000]} />
+        <RangeSlider
+          min={0}
+          max={1000}
+          step={10}
+          value={[prices.priceFrom, prices.priceTo]}
+          onValueChange={([priceFrom, priceTo]) => {
+            setPrice({ priceFrom, priceTo });
+          }}
+        />
       </div>
 
       <CheckboxFilterGroup
