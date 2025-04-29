@@ -1,12 +1,12 @@
 "use client";
 
 import { useFilterIngredients } from "@/hooks/useFilterIngredients";
+import { useEffect, useState } from "react";
+import { useSet } from "react-use";
 import { Input } from "../ui";
 import { CheckboxFilterGroup } from "./checkbox-filter-group";
-import { FilterCheckbox } from "./filter-checkbox";
 import { RangeSlider } from "./range-slider";
 import { Title } from "./title";
-import { useState } from "react";
 
 type Props = {
   className?: string;
@@ -18,12 +18,18 @@ type PriceProps = {
 };
 
 export const Filters = ({ className }: Props) => {
-  const { ingredients, isLoading, onAddId, selectedIds } =
+  const { ingredients, isLoading, onAddId, selectedIngredients } =
     useFilterIngredients();
+
   const [prices, setPrice] = useState<PriceProps>({
     priceFrom: 0,
     priceTo: 1000,
   });
+
+  const [sizes, { toggle: toggleSizes }] = useSet(new Set<string>([]));
+  const [pizzaTypes, { toggle: togglePizzaTypes }] = useSet(
+    new Set<string>([])
+  );
 
   const items = ingredients.map((item) => ({
     value: String(item.id),
@@ -37,14 +43,39 @@ export const Filters = ({ className }: Props) => {
     });
   };
 
+  useEffect(() => {
+    console.log({ prices, pizzaTypes, sizes, selectedIngredients });
+  }, [prices, pizzaTypes, sizes, selectedIngredients]);
+
   return (
     <div className={className}>
       <Title text="Фильтрация" size="sm" className="mb-5 font-extrabold" />
 
-      <div className="flex flex-col gap-4">
-        <FilterCheckbox name="ready" text="Можно собирать" value="1" />
-        <FilterCheckbox name="new" text="Новинки" value="2" />
-      </div>
+      {/* Верхние чекбоксы */}
+      <CheckboxFilterGroup
+        title="Тип теста"
+        name="pizzaTypes"
+        className="mb-5"
+        onClickCheckbox={togglePizzaTypes}
+        selected={pizzaTypes}
+        items={[
+          { text: "Тонкое", value: "1" },
+          { text: "Традиционное", value: "2" },
+        ]}
+      />
+
+      <CheckboxFilterGroup
+        title="Размеры"
+        name="sizes"
+        className="mb-5"
+        onClickCheckbox={toggleSizes}
+        selected={sizes}
+        items={[
+          { text: "20 см", value: "20" },
+          { text: "30 см", value: "30" },
+          { text: "40 см", value: "40" },
+        ]}
+      />
 
       <div className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
         <p className="font-bold mb-3">Цена от и до:</p>
@@ -86,7 +117,7 @@ export const Filters = ({ className }: Props) => {
         items={items}
         isLoading={isLoading}
         onClickCheckbox={onAddId}
-        selectedIds={selectedIds}
+        selected={selectedIngredients}
       />
     </div>
   );
