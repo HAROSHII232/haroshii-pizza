@@ -1,58 +1,17 @@
 "use client";
 
-import { useFilterIngredients } from "@/hooks/useFilterIngredients";
-import { useEffect, useState } from "react";
-import { useSet } from "react-use";
+import qs from "qs";
+import { useEffect } from "react";
 import { Input } from "../ui";
 import { CheckboxFilterGroup } from "./checkbox-filter-group";
 import { RangeSlider } from "./range-slider";
 import { Title } from "./title";
-import qs from "qs";
-import { useRouter, useSearchParams } from "next/navigation";
 
 type Props = {
   className?: string;
 };
 
-type PriceProps = {
-  priceFrom?: number;
-  priceTo?: number;
-};
-
-type QueryFilters = {
-  pizzaTypes: string;
-  sizes: string;
-  ingredients: string;
-} & PriceProps;
-
 export const Filters = ({ className }: Props) => {
-  const searchParams = useSearchParams() as unknown as Map<
-    keyof QueryFilters,
-    string
-  >;
-  const router = useRouter();
-
-  const { ingredients, isLoading, onAddId, selectedIngredients } =
-    useFilterIngredients(searchParams.get("ingredients")?.split(","));
-
-  const [prices, setPrice] = useState<PriceProps>({
-    priceFrom: Number(searchParams.get("priceFrom")) || undefined,
-    priceTo: Number(searchParams.get("priceTo")) || undefined,
-  });
-
-  const [sizes, { toggle: toggleSizes }] = useSet(
-    new Set<string>(
-      searchParams.has("sizes") ? searchParams.get("sizes")?.split(",") : []
-    )
-  );
-  const [pizzaTypes, { toggle: togglePizzaTypes }] = useSet(
-    new Set<string>(
-      searchParams.has("pizzaTypes")
-        ? searchParams.get("pizzaTypes")?.split(",")
-        : []
-    )
-  );
-
   const items = ingredients.map((item) => ({
     value: String(item.id),
     text: item.name,
