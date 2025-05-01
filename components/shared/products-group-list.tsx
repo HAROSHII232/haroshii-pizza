@@ -42,8 +42,8 @@ export const ProductsGroupList = ({
           <ProductCard
             id={item.id}
             key={item.id}
-            name="Маргарита"
-            imageUrl="https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp"
+            name={item.name}
+            imageUrl={item.imageUrl}
             price={item.items[0].price}
           />
         ))}
