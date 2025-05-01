@@ -6,7 +6,7 @@ type Props = {
   size: 20 | 30 | 40;
 };
 
-export const ProductImage = ({ imageUrl, size, className }: Props) => {
+export const PizzaImage = ({ imageUrl, size, className }: Props) => {
   return (
     <div
       className={cn(
