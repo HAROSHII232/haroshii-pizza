@@ -9,6 +9,11 @@ import { prisma } from "@/prisma/prisma-client";
 
 export default async function Home() {
   const categories = await prisma.category.findMany({
+    where: {
+      products: {
+        some: {},
+      },
+    },
     include: {
       products: {
         include: {
@@ -19,15 +24,13 @@ export default async function Home() {
     },
   });
 
-  console.log(categories);
-
   return (
     <>
       <Container className="mt-10">
         <Title text="Все пиццы" size="lg" className="font-extrabold" />
       </Container>
 
-      <TopBar />
+      <TopBar categories={categories} />
 
       <Container className="mt-9 pb-14">
         <div className="flex gap-[80px]">
@@ -39,17 +42,14 @@ export default async function Home() {
           {/* Список товаров */}
           <section className="flex-1">
             <div className="flex flex-col gap-16">
-              {categories.map(
-                (category) =>
-                  category.products.length > 0 && (
-                    <ProductsGroupList
-                      key={category.id}
-                      title={category.name}
-                      categoryId={category.id}
-                      items={category.products}
-                    />
-                  )
-              )}
+              {categories.map((category) => (
+                <ProductsGroupList
+                  key={category.id}
+                  title={category.name}
+                  categoryId={category.id}
+                  items={category.products}
+                />
+              ))}
             </div>
           </section>
         </div>
