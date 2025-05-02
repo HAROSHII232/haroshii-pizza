@@ -1,7 +1,7 @@
 "use client";
 
 import { ProductWithRelations } from "@/@types/prisma";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
 import { cn } from "@/shared/lib";
 import { useRouter } from "next/navigation";
 import { ChooseProductForm } from "../choose-product-form";

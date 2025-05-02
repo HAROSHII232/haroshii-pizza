@@ -1,6 +1,6 @@
 "use client";
 
-import { useCategoryStore } from "@/store/category";
+import { useCategoryStore } from "@/shared/store/category";
 import { useEffect, useRef } from "react";
 import { useIntersection } from "react-use";
 import { ProductCard } from "./product-card";
