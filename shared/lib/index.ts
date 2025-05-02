@@ -1,1 +1,2 @@
-export {cn} from "./utils";
+export { calcTotalPizzaPrice } from "./calc-total-pizza-price";
+export { cn } from "./utils";
