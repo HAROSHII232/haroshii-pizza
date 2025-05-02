@@ -2,7 +2,12 @@ import { cn } from "@/shared/lib";
 import { PizzaImage } from "./pizza-image";
 import { Title } from "./title";
 import { Button } from "../ui";
-import { PIZZA_SIZES, PizzaSize, PizzaType } from "@/shared/constants";
+import {
+  PIZZA_SIZES,
+  PIZZA_TYPES,
+  PizzaSize,
+  PizzaType,
+} from "@/shared/constants";
 import { GroupVariants } from "./group-variants";
 import { useState } from "react";
 
@@ -41,12 +46,20 @@ export const ChoosePizzaForm = ({
 
         <p className="text-gray-400">{textDetails}</p>
 
-        <GroupVariants
-          items={PIZZA_SIZES}
-          value={String(size)}
-          onClick={(value) => setSize(Number(value) as PizzaSize)}
-        />
+        <div className="flex flex-col gap-4 mt-5">
+          <GroupVariants
+            items={PIZZA_SIZES}
+            value={String(size)}
+            onClick={(value) => setSize(Number(value) as PizzaSize)}
+          />
 
+          <GroupVariants
+            items={PIZZA_TYPES}
+            value={String(type)}
+            onClick={(value) => setType(Number(value) as PizzaType)}
+          />
+        </div>
+        
         <Button className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
           Добавить в корзину за {totalPrice} ₽
         </Button>
