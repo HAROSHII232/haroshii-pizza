@@ -1,0 +1,20 @@
+export const MAP_PIZZA_SIZE = {
+  20: "Маленькая",
+  30: "Средняя",
+  40: "Большая",
+} as const;
+
+export const MAP_PIZZA_TYPE = {
+  1: "тардиционное",
+  2: "тонкое",
+} as const;
+
+export const PIZZA_SIZES = Object.entries(MAP_PIZZA_SIZE).map(
+  ([value, name]) => ({
+    name,
+    value,
+  })
+);
+
+export type PizzaSize = keyof typeof MAP_PIZZA_SIZE;
+export type PizzaType = keyof typeof MAP_PIZZA_TYPE;

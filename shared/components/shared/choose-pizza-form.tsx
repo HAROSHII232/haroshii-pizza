@@ -2,6 +2,9 @@ import { cn } from "@/shared/lib";
 import { PizzaImage } from "./pizza-image";
 import { Title } from "./title";
 import { Button } from "../ui";
+import { PIZZA_SIZES, PizzaSize, PizzaType } from "@/shared/constants";
+import { GroupVariants } from "./group-variants";
+import { useState } from "react";
 
 type Props = {
   imageUrl: string;
@@ -12,6 +15,9 @@ type Props = {
   className?: string;
 };
 
+const DEFAULT_PIZZA_SIZE: PizzaSize = 30;
+const DEFAULT_PIZZA_TYPE: PizzaType = 1;
+
 export const ChoosePizzaForm = ({
   className,
   imageUrl,
@@ -20,9 +26,11 @@ export const ChoosePizzaForm = ({
   items,
   onSubmit,
 }: Props) => {
+  const [size, setSize] = useState<PizzaSize>(DEFAULT_PIZZA_SIZE);
+  const [type, setType] = useState<PizzaType>(DEFAULT_PIZZA_TYPE);
+
   const textDetails = "30 см, традиционное тесто 30";
   const totalPrice = 300;
-  const size = 30;
 
   return (
     <div className={cn("flex flex-1", className)}>
@@ -32,6 +40,12 @@ export const ChoosePizzaForm = ({
         <Title text={name} size="md" className="font-extrabold mb-1" />
 
         <p className="text-gray-400">{textDetails}</p>
+
+        <GroupVariants
+          items={PIZZA_SIZES}
+          value={String(size)}
+          onClick={(value) => setSize(Number(value) as PizzaSize)}
+        />
 
         <Button className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
           Добавить в корзину за {totalPrice} ₽
