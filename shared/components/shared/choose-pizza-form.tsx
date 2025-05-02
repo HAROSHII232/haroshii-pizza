@@ -5,7 +5,12 @@ import {
   PizzaType,
 } from "@/shared/constants";
 import { usePizzaOptions } from "@/shared/hooks";
-import { calcTotalPizzaPrice, cn, getAvailablePizzaSizes } from "@/shared/lib";
+import {
+  calcTotalPizzaPrice,
+  cn,
+  getAvailablePizzaSizes,
+  getPizzaDetails,
+} from "@/shared/lib";
 import { Ingredient, ProductItem } from "@prisma/client";
 import { Button } from "../ui";
 import { GroupVariants } from "./group-variants";
@@ -40,15 +45,14 @@ export const ChoosePizzaForm = ({
     availableSizes,
   } = usePizzaOptions(items);
 
-  const totalPrice = calcTotalPizzaPrice(
+
+  const { textDetails, totalPrice } = getPizzaDetails(
     type,
     size,
     items,
     ingredients,
     selectedIngredients
   );
-
-  const textDetails = `${size} см, ${MAP_PIZZA_TYPE[type]} тесто`;
 
   const handleClickAdd = () => {
     onClickAddCard?.();
