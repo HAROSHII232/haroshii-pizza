@@ -5,7 +5,7 @@ import {
   PizzaSize,
   PizzaType,
 } from "@/shared/constants";
-import { calcTotalPizzaPrice, cn } from "@/shared/lib";
+import { calcTotalPizzaPrice, cn, getAvailablePizzaSizes } from "@/shared/lib";
 import { Ingredient, ProductItem } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { useSet } from "react-use";
@@ -50,20 +50,13 @@ export const ChoosePizzaForm = ({
     selectedIngredients
   );
 
+  const availablePizzaSizes = getAvailablePizzaSizes(items, type);
+
   const textDetails = `${size} см, ${MAP_PIZZA_TYPE[type]} тесто`;
 
   const handleClickAdd = () => {
     onClickAddCard?.();
   };
-
-  const filteredPizzasByType = items.filter((item) => item.pizzaType === type);
-  const availablePizzaSizes = PIZZA_SIZES.map((item) => ({
-    name: item.name,
-    value: item.value,
-    disabled: !filteredPizzasByType.some(
-      (pizza) => Number(pizza.size) === Number(item.value)
-    ),
-  }));
 
   useEffect(() => {
     const isAvailableSize = availablePizzaSizes?.find(
