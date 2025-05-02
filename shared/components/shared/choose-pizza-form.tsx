@@ -1,25 +1,26 @@
-import { cn } from "@/shared/lib";
-import { PizzaImage } from "./pizza-image";
-import { Title } from "./title";
-import { Button } from "../ui";
 import {
+  MAP_PIZZA_TYPE,
   PIZZA_SIZES,
   PIZZA_TYPES,
   PizzaSize,
   PizzaType,
 } from "@/shared/constants";
-import { GroupVariants } from "./group-variants";
+import { cn } from "@/shared/lib";
+import { Ingredient, ProductItem } from "@prisma/client";
 import { useState } from "react";
-import { Ingredient } from "@prisma/client";
-import { IngredientItem } from "./ingredient-item";
 import { useSet } from "react-use";
+import { Button } from "../ui";
+import { GroupVariants } from "./group-variants";
+import { IngredientItem } from "./ingredient-item";
+import { PizzaImage } from "./pizza-image";
+import { Title } from "./title";
 
 type Props = {
   imageUrl: string;
   name: string;
   ingredients: Ingredient[];
-  items?: any[];
-  onSubmit?: VoidFunction;
+  items: ProductItem[];
+  onClickAddCard?: VoidFunction;
   className?: string;
 };
 
@@ -32,7 +33,7 @@ export const ChoosePizzaForm = ({
   name,
   ingredients,
   items,
-  onSubmit,
+  onClickAddCard,
 }: Props) => {
   const [size, setSize] = useState<PizzaSize>(DEFAULT_PIZZA_SIZE);
   const [type, setType] = useState<PizzaType>(DEFAULT_PIZZA_TYPE);
@@ -41,8 +42,20 @@ export const ChoosePizzaForm = ({
     new Set<number>([])
   );
 
-  const textDetails = "30 см, традиционное тесто 30";
-  const totalPrice = 300;
+  const pizzaPrice = items.find(
+    (item) => item.pizzaType === type && item.size === size
+  )!.price;
+  const totalIngredientsPrice = ingredients
+    .filter((ingredient) => selectedIngredients.has(ingredient.id))
+    .reduce((acc, ingredient) => acc + ingredient.price, 0);
+
+  const totalPrice = pizzaPrice + totalIngredientsPrice;
+
+  const textDetails = `${size} см, ${MAP_PIZZA_TYPE[type]} тесто`;
+
+  const handleClickAdd = () => {
+    onClickAddCard?.();
+  };
 
   return (
     <div className={cn("flex flex-1", className)}>
@@ -82,7 +95,10 @@ export const ChoosePizzaForm = ({
           </div>
         </div>
 
-        <Button className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
+        <Button
+          onClick={handleClickAdd}
+          className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
+        >
           Добавить в корзину за {totalPrice} ₽
         </Button>
       </div>
