@@ -10,11 +10,14 @@ import {
 } from "@/shared/constants";
 import { GroupVariants } from "./group-variants";
 import { useState } from "react";
+import { Ingredient } from "@prisma/client";
+import { IngredientItem } from "./ingredient-item";
+import { useSet } from "react-use";
 
 type Props = {
   imageUrl: string;
   name: string;
-  ingredients: any[];
+  ingredients: Ingredient[];
   items?: any[];
   onSubmit?: VoidFunction;
   className?: string;
@@ -33,6 +36,10 @@ export const ChoosePizzaForm = ({
 }: Props) => {
   const [size, setSize] = useState<PizzaSize>(DEFAULT_PIZZA_SIZE);
   const [type, setType] = useState<PizzaType>(DEFAULT_PIZZA_TYPE);
+
+  const [selectedIngredients, { toggle: addIngredient }] = useSet(
+    new Set<number>([])
+  );
 
   const textDetails = "30 см, традиционное тесто 30";
   const totalPrice = 300;
@@ -59,7 +66,22 @@ export const ChoosePizzaForm = ({
             onClick={(value) => setType(Number(value) as PizzaType)}
           />
         </div>
-        
+
+        <div className="bg-gray-50 p-5 rounded-md h-[420px] overflow-auto scrollbar mt-5">
+          <div className="grid grid-cols-3 gap-3">
+            {ingredients.map((ingredient) => (
+              <IngredientItem
+                key={ingredient.id}
+                imageUrl={ingredient.imageUrl}
+                name={ingredient.name}
+                price={ingredient.price}
+                active={selectedIngredients.has(ingredient.id)}
+                onClick={() => addIngredient(ingredient.id)}
+              />
+            ))}
+          </div>
+        </div>
+
         <Button className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
           Добавить в корзину за {totalPrice} ₽
         </Button>

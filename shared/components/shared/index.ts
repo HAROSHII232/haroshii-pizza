@@ -1,4 +1,4 @@
-import { ChooseProductModal } from "./modals/choose-product-modal";
+export { ChooseProductModal } from "./modals/choose-product-modal";
 export { TopBar } from "./top-bar";
 export { Container } from "./container";
 export { Header } from "./header";
@@ -15,4 +15,5 @@ export { SearchInput } from "./search-input";
 export { PizzaImage } from "./pizza-image";
 export { GroupVariants } from "./group-variants";
 export { ChooseProductForm } from "./choose-product-form";
+export { IngredientItem } from "./ingredient-item";
 export * from "./modals";

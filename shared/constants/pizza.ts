@@ -5,7 +5,7 @@ export const MAP_PIZZA_SIZE = {
 } as const;
 
 export const MAP_PIZZA_TYPE = {
-  1: "тардиционное",
+  1: "традиционное",
   2: "тонкое",
 } as const;
 
