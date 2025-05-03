@@ -13,6 +13,8 @@ import { Button } from "../ui";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
+import { CartDrawerItem } from "./cart-drawer-item";
+import { getCartItemDetails } from "@/shared/lib";
 
 export const CartDrawer = ({ children }: PropsWithChildren) => {
   return (
@@ -24,6 +26,24 @@ export const CartDrawer = ({ children }: PropsWithChildren) => {
             В корзине <span className="font-bold">3 товара</span>
           </SheetTitle>
         </SheetHeader>
+
+        <div className="-mx-6 mt-5 overflow-auto flex-1">
+          <div className="mb-2">
+            <CartDrawerItem
+              id={1}
+              imageUrl={
+                "https://media.dodostatic.net/image/r:584x584/11EE7D61706D472F9A5D71EB94149304.webp"
+              }
+              details={getCartItemDetails(2, 30, [
+                { name: "Цыплёнок" },
+                { name: "Cыр" },
+              ])}
+              name={"Чоризо фреш"}
+              price={300}
+              quantity={1}
+            />
+          </div>
+        </div>
 
         <SheetFooter className="bg-white -mx-6 p-8">
           <div className="w-full">
