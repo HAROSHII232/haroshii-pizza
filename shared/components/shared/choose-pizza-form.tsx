@@ -1,16 +1,8 @@
-import {
-  MAP_PIZZA_TYPE,
-  PIZZA_TYPES,
-  PizzaSize,
-  PizzaType,
-} from "@/shared/constants";
+"use client";
+
+import { PIZZA_TYPES, PizzaSize, PizzaType } from "@/shared/constants";
 import { usePizzaOptions } from "@/shared/hooks";
-import {
-  calcTotalPizzaPrice,
-  cn,
-  getAvailablePizzaSizes,
-  getPizzaDetails,
-} from "@/shared/lib";
+import { cn, getPizzaDetails } from "@/shared/lib";
 import { Ingredient, ProductItem } from "@prisma/client";
 import { Button } from "../ui";
 import { GroupVariants } from "./group-variants";
@@ -38,13 +30,12 @@ export const ChoosePizzaForm = ({
   const {
     size,
     type,
+    availableSizes,
+    selectedIngredients,
     setSize,
     setType,
-    selectedIngredients,
     addIngredient,
-    availableSizes,
   } = usePizzaOptions(items);
-
 
   const { textDetails, totalPrice } = getPizzaDetails(
     type,
