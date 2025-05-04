@@ -7,3 +7,17 @@ export const getCart = async (): Promise<CartDTO> => {
 
   return data;
 };
+
+export const updateItemQuantity = async (
+  itemId: number,
+  quantity: number
+): Promise<CartDTO> => {
+  const { data } = await axiosInstance.patch<CartDTO>(
+    `${ApiRoutes.CART}/${itemId}`,
+    {
+      quantity,
+    }
+  );
+
+  return data;
+};
