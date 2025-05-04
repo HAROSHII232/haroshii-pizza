@@ -1,3 +1,4 @@
+import { PizzaSize } from "@/shared/constants";
 import {
   Cart,
   CartItem,
@@ -16,3 +17,8 @@ export type CartItemDTO = CartItem & {
 export type CartDTO = {
   items: CartItemDTO[];
 } & Cart;
+
+export type CreateCartItemValuesDTO = {
+  productItemId: number;
+  ingredients?: number[];
+};

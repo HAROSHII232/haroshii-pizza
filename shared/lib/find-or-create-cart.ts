@@ -1,19 +1,18 @@
 import { prisma } from "@/prisma/prisma-client";
+import { Cart } from "@prisma/client";
 
-export const findOrCreateCart = async(token: string) => {
- let userCart = await prisma.cart.findFirst({
-    where: {
-      token,
-    },
-  });
+/**
+ * Finds a cart by token and creates one if it doesn't exist.
+ *
+ * @param token The token of the cart to find or create.
+ * @returns The found or created cart.
+ */
+export const findOrCreateCart = async (token: string): Promise<Cart> => {
+  let cart = await prisma.cart.findFirst({ where: { token } });
 
-  if (!userCart) {
-    userCart = await prisma.cart.create({
-      data: {
-        token,
-      },
-    });
+  if (!cart) {
+    cart = await prisma.cart.create({ data: { token } });
   }
 
-  return userCart;
+  return cart;
 };

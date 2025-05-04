@@ -15,7 +15,7 @@ type Props = {
   name: string;
   ingredients: Ingredient[];
   items: ProductItem[];
-  onClickAddCard?: VoidFunction;
+  onSubmit: (itemId: number, ingredients: number[]) => void;
   className?: string;
 };
 
@@ -25,13 +25,14 @@ export const ChoosePizzaForm = ({
   name,
   ingredients,
   items,
-  onClickAddCard,
+  onSubmit,
 }: Props) => {
   const {
     size,
     type,
     availableSizes,
     selectedIngredients,
+    currentItemId,
     setSize,
     setType,
     addIngredient,
@@ -46,7 +47,9 @@ export const ChoosePizzaForm = ({
   );
 
   const handleClickAdd = () => {
-    onClickAddCard?.();
+    if (currentItemId) {
+      onSubmit(currentItemId, Array.from(selectedIngredients));
+    }
   };
 
   return (

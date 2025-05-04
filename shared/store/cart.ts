@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { API } from "../services/api-client";
 import { CartStateItem, getCartDetails } from "../lib";
+import { CreateCartItemValuesDTO } from "../services/dto";
 
 export type CartState = {
   loading: boolean;
@@ -59,5 +60,16 @@ export const useCartStore = create<CartState>((set, get) => ({
     }
   },
 
-  addCartItem: async (values: any) => {},
+  addCartItem: async (values: CreateCartItemValuesDTO) => {
+    try {
+      set({ loading: true, error: false });
+      const data = await API.cart.addCartItem(values);
+      set(getCartDetails(data));
+    } catch (error) {
+      console.error(error);
+      set({ error: true });
+    } finally {
+      set({ loading: false });
+    }
+  },
 }));

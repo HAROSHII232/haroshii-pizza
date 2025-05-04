@@ -57,27 +57,28 @@ export const CartDrawer = ({ children }: PropsWithChildren) => {
 
         <div className="-mx-6 mt-5 overflow-auto flex-1">
           {items.map((item) => (
-            <CartDrawerItem
-              key={item.id}
-              id={item.id}
-              imageUrl={item.imageUrl}
-              name={item.name}
-              price={item.price}
-              quantity={item.quantity}
-              onClickCountButton={(type) =>
-                onClickCountButton(item.id, item.quantity, type)
-              }
-              onClickRemove={() => removeCartItem(item.id)}
-              details={
-                item.pizzaType && item.pizzaSize
-                  ? getCartItemDetails(
-                      item.ingredients,
-                      item.pizzaType as PizzaType,
-                      item.pizzaSize as PizzaSize
-                    )
-                  : ""
-              }
-            />
+            <div key={item.id} className="mb-2">
+              <CartDrawerItem
+                id={item.id}
+                imageUrl={item.imageUrl}
+                name={item.name}
+                price={item.price}
+                quantity={item.quantity}
+                onClickCountButton={(type) =>
+                  onClickCountButton(item.id, item.quantity, type)
+                }
+                onClickRemove={() => removeCartItem(item.id)}
+                details={
+                  item.pizzaType && item.pizzaSize
+                    ? getCartItemDetails(
+                        item.ingredients,
+                        item.pizzaType as PizzaType,
+                        item.pizzaSize as PizzaSize
+                      )
+                    : ""
+                }
+              />
+            </div>
           ))}
         </div>
 
