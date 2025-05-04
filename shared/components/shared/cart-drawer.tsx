@@ -18,15 +18,27 @@ import { useCartStore } from "@/shared/store";
 import { PizzaSize, PizzaType } from "@/shared/constants";
 
 export const CartDrawer = ({ children }: PropsWithChildren) => {
-  const [totalAmount, fetchCartItems, items] = useCartStore((state) => [
-    state.totalAmount,
-    state.fetchCartItems,
-    state.items,
-  ]);
+  const [items, totalAmount, fetchCartItems, updateItemQuantity] = useCartStore(
+    (state) => [
+      state.items,
+      state.totalAmount,
+      state.fetchCartItems,
+      state.updateItemQuantity,
+    ]
+  );
 
   useEffect(() => {
     fetchCartItems();
   }, []);
+
+  const onClickCountButton = (
+    id: number,
+    quantity: number,
+    type: "plus" | "minus"
+  ) => {
+    const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
+    updateItemQuantity(id, newQuantity);
+  };
 
   return (
     <Sheet>
@@ -47,6 +59,9 @@ export const CartDrawer = ({ children }: PropsWithChildren) => {
               name={item.name}
               price={item.price}
               quantity={item.quantity}
+              onClickCountButton={(type) =>
+                onClickCountButton(item.id, item.quantity, type)
+              }
               details={
                 item.pizzaType && item.pizzaSize
                   ? getCartItemDetails(
