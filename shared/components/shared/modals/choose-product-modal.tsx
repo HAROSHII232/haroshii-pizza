@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { ChooseProductForm } from "../choose-product-form";
 import { ChoosePizzaForm } from "../choose-pizza-form";
 import { useCartStore } from "@/shared/store";
+import toast from "react-hot-toast";
 
 type Props = {
   product: ProductWithRelations;
@@ -15,22 +16,32 @@ type Props = {
 
 export const ChooseProductModal = ({ product, className }: Props) => {
   const router = useRouter();
-  const addCartItem = useCartStore((state) => state.addCartItem);
+  const [addCartItem, loading] = useCartStore((state) => [
+    state.addCartItem,
+    state.loading,
+  ]);
 
   const firstItem = product.items[0];
   const isPizzaForm = Boolean(firstItem.pizzaType);
 
-  const onAddProduct = () => {
-    addCartItem({
-      productItemId: firstItem.id,
-    });
-  };
+  const handleAddToCart = async (
+    productItemId?: number,
+    selectedIngredients?: number[]
+  ) => {
+    try {
+      const itemId = productItemId ?? firstItem.id;
 
-  const onAddPizza = (productItemId: number, ingredients: number[]) => {
-    addCartItem({
-      productItemId,
-      ingredients,
-    });
+      await addCartItem({
+        productItemId: itemId,
+        ingredients: selectedIngredients,
+      });
+
+      toast.success("Товар успешно добавлен в корзину");
+      router.back();
+    } catch (error) {
+      toast.error("Не удалось добавить товар в корзину  ");
+      console.error("Add to cart error:", error);
+    }
   };
 
   return (
@@ -47,14 +58,16 @@ export const ChooseProductModal = ({ product, className }: Props) => {
             name={product.name}
             ingredients={product.ingredients}
             items={product.items}
-            onSubmit={onAddPizza}
+            onSubmit={handleAddToCart}
+            loading={loading}
           />
         ) : (
           <ChooseProductForm
             imageUrl={product.imageUrl}
             name={product.name}
             price={firstItem.price}
-            onSubmit={onAddProduct}
+            onSubmit={handleAddToCart}
+            loading={loading}
           />
         )}
       </DialogContent>
