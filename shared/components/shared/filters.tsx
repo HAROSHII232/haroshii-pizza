@@ -26,6 +26,9 @@ export const Filters = ({ className }: Props) => {
     filters.setPrices("priceTo", prices[1]);
   };
 
+  const priceFrom = filters.prices.priceFrom ?? "";
+  const priceTo = filters.prices.priceTo ?? "";
+
   return (
     <div className={className}>
       <Title text="Фильтрация" size="sm" className="mb-5 font-extrabold" />
@@ -63,9 +66,9 @@ export const Filters = ({ className }: Props) => {
             placeholder="0"
             min={0}
             max={1000}
-            value={String(filters.prices.priceFrom)}
+            value={priceFrom}
             onChange={(e) =>
-              filters.setPrices("priceFrom", Number(e.target.value))
+              filters.setPrices("priceFrom", Number(e.target.value) || 0)
             }
           />
           <Input
@@ -73,9 +76,9 @@ export const Filters = ({ className }: Props) => {
             min={100}
             max={1000}
             placeholder="1000"
-            value={String(filters.prices.priceTo)}
+            value={priceTo}
             onChange={(e) =>
-              filters.setPrices("priceTo", Number(e.target.value))
+              filters.setPrices("priceTo", Number(e.target.value) || 1000)
             }
           />
         </div>
@@ -84,8 +87,8 @@ export const Filters = ({ className }: Props) => {
           max={1000}
           step={10}
           value={[
-            filters.prices.priceFrom || 0,
-            filters.prices.priceTo || 1000,
+            Number(filters.prices.priceFrom) || 0,
+            Number(filters.prices.priceTo) || 1000,
           ]}
           onValueChange={updatePrices}
         />
