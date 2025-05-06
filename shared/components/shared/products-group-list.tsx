@@ -1,5 +1,6 @@
 "use client";
 
+import { ProductWithRelations } from "@/@types/prisma";
 import { useCategoryStore } from "@/shared/store/category";
 import { useEffect, useRef } from "react";
 import { useIntersection } from "react-use";
@@ -8,7 +9,7 @@ import { Title } from "./title";
 
 type Props = {
   title: string;
-  items: any[];
+  items: ProductWithRelations[];
   className?: string;
   categoryId: number;
   listClassName?: string;
@@ -37,13 +38,14 @@ export const ProductsGroupList = ({
       <Title text={title} size="lg" className="font-extrabold mb-5" />
 
       <div className="grid grid-cols-3 gap-[50px]">
-        {items.map((item, i) => (
+        {items.map((product) => (
           <ProductCard
-            id={item.id}
-            key={item.id}
-            name={item.name}
-            imageUrl={item.imageUrl}
-            price={item.items[0].price}
+            id={product.id}
+            key={product.id}
+            name={product.name}
+            imageUrl={product.imageUrl}
+            price={product.items[0].price}
+            ingredients={product.ingredients}
           />
         ))}
       </div>
