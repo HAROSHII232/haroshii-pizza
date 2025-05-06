@@ -1,7 +1,11 @@
 "use client";
 
 import { ProductWithRelations } from "@/@types/prisma";
-import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@/shared/components/ui/dialog";
 import { cn } from "@/shared/lib";
 import { useRouter } from "next/navigation";
 import { ChooseProductForm } from "../choose-product-form";
@@ -46,11 +50,13 @@ export const ChooseProductModal = ({ product, className }: Props) => {
 
   return (
     <Dialog open={Boolean(product)} onOpenChange={() => router.back()}>
+      <DialogTitle className="sr-only">Выбор товара</DialogTitle>
       <DialogContent
         className={cn(
           "w-[1060px] max-w-[1060px] min-h-[550px] p-0 bg-white overflow-hidden",
           className
         )}
+        aria-describedby={undefined}
       >
         {isPizzaForm ? (
           <ChoosePizzaForm
