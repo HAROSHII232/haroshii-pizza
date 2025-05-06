@@ -9,7 +9,7 @@ type Props = {
   className?: string;
 };
 
-export const Categories = ({items, className }: Props) => {
+export const Categories = ({ items, className }: Props) => {
   const categoryActiveId = useCategoryStore((state) => state.activeId);
 
   return (

@@ -18,7 +18,6 @@ export const ProductsGroupList = ({
   categoryId,
   items,
   title,
-  listClassName,
   className,
 }: Props) => {
   const setActiveCategoryId = useCategoryStore((state) => state.setActiveId);
@@ -31,7 +30,7 @@ export const ProductsGroupList = ({
     if (intersection?.isIntersecting) {
       setActiveCategoryId(categoryId);
     }
-  }, [categoryId, intersection?.isIntersecting, title]);
+  }, [categoryId, intersection?.isIntersecting, setActiveCategoryId, title]);
 
   return (
     <div className={className} id={title} ref={intersectionRef}>
