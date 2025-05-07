@@ -5,4 +5,5 @@ export type CartItemProps = {
   name: string;
   price: number;
   quantity: number;
+  disabled?: boolean;
 };

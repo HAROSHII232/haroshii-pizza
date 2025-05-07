@@ -48,7 +48,10 @@ export const CartDrawer = ({ children }: PropsWithChildren) => {
   return (
     <Sheet>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent className="flex flex-col justify-between pb-0 bg-[#F4F1EE]">
+      <SheetContent
+        className="flex flex-col justify-between pb-0 bg-[#F4F1EE]"
+        aria-describedby={undefined}
+      >
         <SheetHeader>
           <SheetTitle>
             В корзине <span className="font-bold">{items.length} товара</span>
@@ -64,6 +67,7 @@ export const CartDrawer = ({ children }: PropsWithChildren) => {
                 name={item.name}
                 price={item.price}
                 quantity={item.quantity}
+                disabled={item.disabled}
                 onClickCountButton={(type) =>
                   onClickCountButton(item.id, item.quantity, type)
                 }
