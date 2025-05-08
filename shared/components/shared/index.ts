@@ -24,5 +24,6 @@ export { SortPopup } from "./sort-popup";
 export { Title } from "./title";
 export { TopBar } from "./top-bar";
 export { WhiteBlock } from "./white-block";
+export { CheckoutItemDetails } from "./checkout-item-details";
 
 export * from "./modals";
