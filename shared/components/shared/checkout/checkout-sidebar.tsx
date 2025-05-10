@@ -5,9 +5,9 @@ import {
   Truck as TruckIcon,
 } from "lucide-react";
 
-import { CheckoutItemDetails } from "./checkout-item-details";
+import { Button } from "../../ui";
 import { WhiteBlock } from "./white-block";
-import { Button } from "../ui";
+import { CheckoutItemDetails } from "./checkout-item";
 
 const VAT = 15;
 const DELIVERY_PRICE = 250;

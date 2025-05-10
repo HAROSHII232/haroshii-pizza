@@ -2,8 +2,8 @@
 
 import { cn } from "@/shared/lib";
 import { X } from "lucide-react";
-import * as CartItemDetails from "./cart-item-details";
-import { CartItemProps } from "./cart-item-details/cart-item-details.types";
+import * as CartItemDetails from "../../cart-item-details";
+import { CartItemProps } from "../../cart-item-details";
 
 type Props = CartItemProps & {
   onClickRemove?: () => void;

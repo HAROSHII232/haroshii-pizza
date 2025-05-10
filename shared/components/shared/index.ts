@@ -2,11 +2,11 @@ export { CartButton } from "./cart-button";
 export { CartDrawer } from "./cart-drawer";
 export { CartDrawerItem } from "./cart-drawer-item";
 
-export { CheckoutItem } from "./checkout-item";
-export { CheckoutItemDetails } from "./checkout-item-details";
-export { CheckoutItemSkeleton } from "./checkout-item-skeleton";
-export { CheckoutSidebar } from "./checkout-sidebar";
-export { WhiteBlock } from "./white-block";
+export { CheckoutItem } from "./checkout/checkout-item/checkout-item";
+export { CheckoutItemDetails } from "./checkout/checkout-item/checkout-item-details";
+export { CheckoutItemSkeleton } from "./checkout/checkout-item/checkout-item-skeleton";
+export { CheckoutSidebar } from "./checkout/checkout-sidebar";
+export { WhiteBlock } from "./checkout/white-block";
 
 export { Categories } from "./categories";
 export { CheckboxFilterGroup } from "./checkbox-filter-group";
@@ -36,4 +36,4 @@ export { ErrorText } from "./error-text";
 export { RequiredSymbol } from "./required-symbol";
 
 export * from "./modals";
-export * from "./form-components";
+export * from "./form";

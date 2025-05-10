@@ -1,5 +1,5 @@
 import { PropsWithChildren, ReactNode } from "react";
-import { Title } from "./title";
+import { Title } from "../title";
 import { cn } from "@/shared/lib";
 
 type Props = PropsWithChildren & {
