@@ -3,15 +3,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { Container, Title } from "@/shared/components/shared";
 import {
+  Container,
+  Title,
   CheckoutAddressForm,
   CheckoutCart,
   checkoutFormSchema,
   CheckoutFormValues,
   CheckoutPersonalForm,
   CheckoutSidebar,
-} from "@/shared/components/shared/checkout";
+} from "@/shared/components";
 import { useCart } from "@/shared/hooks";
 
 export default function CheckoutPage() {
