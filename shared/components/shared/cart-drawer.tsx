@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState } from "react";
 
 import {
   Sheet,
@@ -28,6 +28,7 @@ import { cn, getCartItemDetails } from "@/shared/lib";
 export const CartDrawer = ({ children }: PropsWithChildren) => {
   const { items, totalAmount, removeCartItem, handleCountButtonClick } =
     useCart();
+  const [redirecting, setRedirecting] = useState(false);
 
   return (
     <Sheet>
@@ -118,8 +119,13 @@ export const CartDrawer = ({ children }: PropsWithChildren) => {
                     <span className="font-bold text-lg">{totalAmount} ₽</span>
                   </div>
 
-                  <Link href="/cart">
-                    <Button type="submit" className="w-full h-12 text-base">
+                  <Link href="/checkout">
+                    <Button
+                      type="submit"
+                      onClick={() => setRedirecting(true)}
+                      loading={redirecting}
+                      className="w-full h-12 text-base"
+                    >
                       Оформить заказ
                       <ArrowRight className="w-5 ml-2" />
                     </Button>

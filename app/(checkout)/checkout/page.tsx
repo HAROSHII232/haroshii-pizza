@@ -1,10 +1,16 @@
+"use client";
+
 import {
+  CheckoutItem,
   CheckoutItemDetails,
   Container,
   Title,
   WhiteBlock,
 } from "@/shared/components/shared";
 import { Button, Input, Textarea } from "@/shared/components/ui";
+import { PizzaSize, PizzaType } from "@/shared/constants";
+import { useCart } from "@/shared/hooks";
+import { getCartItemDetails } from "@/shared/lib";
 import {
   ArrowRight as ArrowRightIcon,
   Package as PackageIcon,
@@ -13,6 +19,9 @@ import {
 } from "lucide-react";
 
 export default function CheckoutPage() {
+  const { items, totalAmount, removeCartItem, handleCountButtonClick } =
+    useCart();
+
   return (
     <Container className="mt-10">
       <Title
@@ -23,7 +32,30 @@ export default function CheckoutPage() {
       <div className="flex gap-10">
         {/* LEFT SIDE */}
         <div className="flex flex-col gap-10 flex-1 mb-20">
-          <WhiteBlock title="1. Корзина"></WhiteBlock>
+          <WhiteBlock title="1. Корзина">
+            <div className="flex flex-col gap-5">
+              {items.map((item) => (
+                <CheckoutItem
+                  key={item.id}
+                  id={item.id}
+                  imageUrl={item.imageUrl}
+                  name={item.name}
+                  price={item.price}
+                  quantity={item.quantity}
+                  disabled={item.disabled}
+                  onClickCountButton={(type) =>
+                    handleCountButtonClick(item.id, item.quantity, type)
+                  }
+                  onClickRemove={() => removeCartItem(item.id)}
+                  details={getCartItemDetails(
+                    item.ingredients,
+                    item.pizzaType as PizzaType,
+                    item.pizzaSize as PizzaSize
+                  )}
+                />
+              ))}
+            </div>
+          </WhiteBlock>
 
           <WhiteBlock title="2. Персональные данные">
             <div className="grid grid-cols-2 gap-5">
@@ -61,7 +93,7 @@ export default function CheckoutPage() {
           <WhiteBlock className="sticky top-4 p-6">
             <div className="flex flex-col gap-1">
               <span className="text-xl">Итого</span>
-              <span className="text-[34px] font-extrabold">3506 ₽</span>
+              <span className="text-[34px] font-extrabold">{totalAmount}</span>
             </div>
 
             <CheckoutItemDetails
