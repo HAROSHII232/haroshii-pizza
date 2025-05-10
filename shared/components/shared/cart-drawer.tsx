@@ -1,8 +1,8 @@
 "use client";
 
-import { PropsWithChildren, useEffect } from "react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { PropsWithChildren } from "react";
 
 import {
   Sheet,
@@ -18,40 +18,16 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { Button } from "../ui";
-import { Title } from "./title";
 import { CartDrawerItem } from "./cart-drawer-item";
+import { Title } from "./title";
 
-import { cn, getCartItemDetails } from "@/shared/lib";
-import { useCartStore } from "@/shared/store";
 import { PizzaSize, PizzaType } from "@/shared/constants";
+import { useCart } from "@/shared/hooks";
+import { cn, getCartItemDetails } from "@/shared/lib";
 
 export const CartDrawer = ({ children }: PropsWithChildren) => {
-  const [
-    items,
-    totalAmount,
-    fetchCartItems,
-    updateItemQuantity,
-    removeCartItem,
-  ] = useCartStore((state) => [
-    state.items,
-    state.totalAmount,
-    state.fetchCartItems,
-    state.updateItemQuantity,
-    state.removeCartItem,
-  ]);
-
-  useEffect(() => {
-    fetchCartItems();
-  }, []);
-
-  const handleCountButtonClick = (
-    id: number,
-    quantity: number,
-    type: "plus" | "minus"
-  ) => {
-    const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
-    updateItemQuantity(id, newQuantity);
-  };
+  const { items, totalAmount, removeCartItem, handleCountButtonClick } =
+    useCart();
 
   return (
     <Sheet>
@@ -60,7 +36,12 @@ export const CartDrawer = ({ children }: PropsWithChildren) => {
         className="flex flex-col justify-between pb-0 bg-[#F4F1EE]"
         aria-describedby={undefined}
       >
-        <div className={cn('flex flex-col h-full', !totalAmount && 'justify-center')}>
+        <div
+          className={cn(
+            "flex flex-col h-full",
+            !totalAmount && "justify-center"
+          )}
+        >
           <SheetHeader>
             {totalAmount > 0 ? (
               <SheetTitle>
@@ -117,15 +98,11 @@ export const CartDrawer = ({ children }: PropsWithChildren) => {
                         handleCountButtonClick(item.id, item.quantity, type)
                       }
                       onClickRemove={() => removeCartItem(item.id)}
-                      details={
-                        item.pizzaType && item.pizzaSize
-                          ? getCartItemDetails(
-                              item.ingredients,
-                              item.pizzaType as PizzaType,
-                              item.pizzaSize as PizzaSize
-                            )
-                          : ""
-                      }
+                      details={getCartItemDetails(
+                        item.ingredients,
+                        item.pizzaType as PizzaType,
+                        item.pizzaSize as PizzaSize
+                      )}
                     />
                   </div>
                 ))}
