@@ -34,3 +34,4 @@ export { FormTextarea } from "./form/form-textarea";
 export * from "./modals";
 export * from "./form";
 export * from "./checkout";
+export * from "./email-templates";

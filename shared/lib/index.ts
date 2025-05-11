@@ -17,4 +17,6 @@ export { findOrCreateCart } from "./find-or-create-cart";
 export { findPizzas } from "./find-pizzas";
 export type { GetSearchParams } from "./find-pizzas";
 
+export { sendEmail } from "./send-email";
+
 export { cn } from "./utils";

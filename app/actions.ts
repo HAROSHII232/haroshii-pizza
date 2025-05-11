@@ -1,7 +1,8 @@
 "use server";
 
 import { prisma } from "@/prisma/prisma-client";
-import { CheckoutFormValues } from "@/shared/components";
+import { CheckoutFormValues, PayOrderTemplate } from "@/shared/components";
+import { sendEmail } from "@/shared/lib";
 import { OrderStatus } from "@prisma/client";
 import { cookies } from "next/headers";
 
@@ -70,7 +71,16 @@ export async function createOrder(data: CheckoutFormValues) {
       },
     });
 
-    return "Заказ создан";
+    /* Отправляем письмо для оплаты заказа */
+    await sendEmail(
+      data.email,
+      "🍕 HAROSHII Pizza 🍕 / Оплатите заказ #" + order.id,
+      PayOrderTemplate({
+        orderId: order.id,
+        totalAmount: order.totalAmount,
+        paymentUrl: `https://learn.javascript.ru/`,
+      })
+    );
   } catch (error) {
     console.error("[CreateOrder] Server error", error);
   }
