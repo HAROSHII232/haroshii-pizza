@@ -2,12 +2,12 @@ import { FormInput } from "../form";
 import { WhiteBlock } from "./white-block";
 
 type Props = {
-  className?: string;
+  className: string;
 };
 
 export const CheckoutPersonalForm = ({ className }: Props) => {
   return (
-    <WhiteBlock title="2. Персональные данные">
+    <WhiteBlock title="2. Персональные данные" className={className}>
       <div className="grid grid-cols-2 gap-5">
         <FormInput name="firstName" className="text-base" placeholder="Имя" />
         <FormInput

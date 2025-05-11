@@ -18,7 +18,7 @@ export type CartState = {
 export const useCartStore = create<CartState>((set, get) => ({
   items: [],
   error: false,
-  loading: false,
+  loading: true,
   totalAmount: 0,
 
   fetchCartItems: async () => {

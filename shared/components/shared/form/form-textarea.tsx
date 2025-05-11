@@ -40,7 +40,11 @@ export const FormTextarea = ({
         {label} {required && <RequiredSymbol />}
       </p>
       <div className="relative">
-        <Textarea className="h-12 text-md" {...register(name)} {...props} />
+        <Textarea
+          className="h-12 text-md resize-none"
+          {...register(name)}
+          {...props}
+        />
         {Boolean(value) && <ClearButton onClick={onClickClear} />}
       </div>
       {errotText && <ErrorText className="mt-2" text={errotText} />}

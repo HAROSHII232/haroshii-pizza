@@ -16,8 +16,13 @@ import {
 import { useCart } from "@/shared/hooks";
 
 export default function CheckoutPage() {
-  const { items, totalAmount, removeCartItem, handleCountButtonClick } =
-    useCart();
+  const {
+    items,
+    totalAmount,
+    loading,
+    removeCartItem,
+    handleCountButtonClick,
+  } = useCart();
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutFormSchema),
@@ -49,18 +54,23 @@ export default function CheckoutPage() {
             <div className="flex flex-col gap-10 flex-1 mb-20">
               <CheckoutCart
                 items={items}
+                loading={loading}
                 handleCountButtonClick={handleCountButtonClick}
                 removeCartItem={removeCartItem}
               />
 
-              <CheckoutPersonalForm />
+              <CheckoutPersonalForm
+                className={loading ? "opacity-40 pointer-events-none" : ""}
+              />
 
-              <CheckoutAddressForm />
+              <CheckoutAddressForm
+                className={loading ? "opacity-40 pointer-events-none" : ""}
+              />
             </div>
 
             {/* RIGHT SIDE */}
             <div className="w-[450px]">
-              <CheckoutSidebar totalAmount={totalAmount} />
+              <CheckoutSidebar loading={loading} totalAmount={totalAmount} />
             </div>
           </div>
         </form>

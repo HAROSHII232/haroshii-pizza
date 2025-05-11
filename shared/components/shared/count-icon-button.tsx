@@ -18,6 +18,7 @@ export const CountIconButton = ({
 }: Props) => {
   return (
     <Button
+      type="button"
       variant="outline"
       disabled={disabled}
       onClick={onClick}
