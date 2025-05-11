@@ -2,7 +2,7 @@
 
 import { prisma } from "@/prisma/prisma-client";
 import { CheckoutFormValues, PayOrderTemplate } from "@/shared/components";
-import { sendEmail } from "@/shared/lib";
+import { createPayment, sendEmail } from "@/shared/lib";
 import { OrderStatus } from "@prisma/client";
 import { cookies } from "next/headers";
 
@@ -71,6 +71,28 @@ export async function createOrder(data: CheckoutFormValues) {
       },
     });
 
+    /* Создаем платеж */
+    const paymentData = await createPayment({
+      amount: order.totalAmount,
+      orderId: order.id,
+      description: "Оплата заказа #" + order.id,
+    });
+
+    if (!paymentData) {
+      throw new Error("Payment data not found");
+    }
+
+    await prisma.order.update({
+      where: {
+        id: order.id,
+      },
+      data: {
+        paymentId: paymentData.id,
+      },
+    });
+
+    const paymentUrl = paymentData.confirmation.confirmation_url;
+
     /* Отправляем письмо для оплаты заказа */
     await sendEmail(
       data.email,
@@ -78,9 +100,11 @@ export async function createOrder(data: CheckoutFormValues) {
       PayOrderTemplate({
         orderId: order.id,
         totalAmount: order.totalAmount,
-        paymentUrl: `https://learn.javascript.ru/`,
+        paymentUrl,
       })
     );
+
+    return paymentUrl;
   } catch (error) {
     console.error("[CreateOrder] Server error", error);
   }

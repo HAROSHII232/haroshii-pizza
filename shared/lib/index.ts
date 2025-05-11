@@ -19,4 +19,6 @@ export type { GetSearchParams } from "./find-pizzas";
 
 export { sendEmail } from "./send-email";
 
+export { createPayment } from "./create-payment";
+
 export { cn } from "./utils";
