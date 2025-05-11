@@ -28,7 +28,9 @@ export const CheckoutSidebar = ({ totalAmount, loading }: Props) => {
         {loading ? (
           <Skeleton className="w-48 h-11" />
         ) : (
-          <span className="h-11 text-[34px] font-extrabold">{totalPrice} ₽</span>
+          <span className="h-11 text-[34px] font-extrabold">
+            {totalPrice} ₽
+          </span>
         )}
       </div>
 
@@ -80,6 +82,7 @@ export const CheckoutSidebar = ({ totalAmount, loading }: Props) => {
 
       <Button
         type="submit"
+        loading={loading}
         className="w-full h-14 rounded-2xl mt-6 text-base font-bold"
       >
         Перейти к оплате
