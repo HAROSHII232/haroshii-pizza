@@ -32,6 +32,7 @@ export { RequiredSymbol } from "./required-symbol";
 export { FormTextarea } from "./form/form-textarea";
 
 export { Providers } from "./providers";
+export { ProfileButton } from "./profile-button";
 
 export * from "./modals";
 export * from "./form";

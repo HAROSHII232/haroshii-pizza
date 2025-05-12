@@ -1,17 +1,19 @@
 "use client";
 
-import { cn } from "@/shared/lib/utils";
-import { User as UserIcon } from "lucide-react";
+import { useEffect } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { useEffect } from "react";
 import toast from "react-hot-toast";
-import { Button } from "../ui";
+
 import { CartButton } from "./cart-button";
 import { Container } from "./container";
 import { SearchInput } from "./search-input";
+import { ProfileButton } from "./profile-button";
+
+import { cn } from "@/shared/lib/utils";
 
 type Props = {
   hasSearch?: boolean;
@@ -63,10 +65,7 @@ export const Header = ({
 
         {/* Правая часть */}
         <div className="flex items-center gap-3">
-          <Button variant={"outline"} className="flex items-center gap-1.5">
-            <UserIcon size={16} />
-            Войти
-          </Button>
+          <ProfileButton />
 
           {hasCart && <CartButton />}
         </div>
