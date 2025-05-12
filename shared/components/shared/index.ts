@@ -31,6 +31,8 @@ export { RequiredSymbol } from "./required-symbol";
 
 export { FormTextarea } from "./form/form-textarea";
 
+export { Providers } from "./providers";
+
 export * from "./modals";
 export * from "./form";
 export * from "./checkout";
