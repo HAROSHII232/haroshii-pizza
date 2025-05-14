@@ -31,10 +31,12 @@ export { RequiredSymbol } from "./required-symbol";
 
 export { FormTextarea } from "./form/form-textarea";
 
-export { Providers } from "./providers";
 export { ProfileButton } from "./profile-button";
+export { Providers } from "./providers";
 
-export * from "./modals";
-export * from "./form";
+export { InfoBlock } from "./info-block";
+
 export * from "./checkout";
 export * from "./email-templates";
+export * from "./form";
+export * from "./modals";
