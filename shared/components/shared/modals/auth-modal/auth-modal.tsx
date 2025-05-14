@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/shared/components/ui";
 import {
   Dialog,
@@ -5,6 +7,9 @@ import {
   DialogTitle,
 } from "@/shared/components/ui/dialog";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
+import { LoginForm } from "./forms/login-form";
+import { RegisterForm } from "./forms/register-form";
 
 type Props = {
   open: boolean;
@@ -12,6 +17,12 @@ type Props = {
 };
 
 export const AuthModal = ({ open, onClose }: Props) => {
+  const [type, setType] = useState<"login" | "register">("login");
+
+  const onSwitchType = () => {
+    setType(type === "login" ? "register" : "login");
+  };
+
   const handleClose = () => {
     onClose();
   };
@@ -24,7 +35,11 @@ export const AuthModal = ({ open, onClose }: Props) => {
           className="w-[450px] bg-white p-10"
           aria-describedby={undefined}
         >
-          FORM
+          {type === "login" ? (
+            <LoginForm onClose={onClose} />
+          ) : (
+            <RegisterForm onClose={onClose} />
+          )}
           <hr />
           <div className="flex gap-2">
             <Button
@@ -63,6 +78,14 @@ export const AuthModal = ({ open, onClose }: Props) => {
               Google
             </Button>
           </div>
+          <Button
+            variant="outline"
+            onClick={onSwitchType}
+            type="button"
+            className="h-12"
+          >
+            {type !== "login" ? "Войти" : "Регистрация"}
+          </Button>
         </DialogContent>
       </Dialog>
     </div>
