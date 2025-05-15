@@ -33,14 +33,23 @@ export const Header = ({
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (searchParams.has("paid")) {
-      setTimeout(() => {
-        toast.success("Заказ успешно оплачен!");
-        const params = new URLSearchParams(searchParams);
-        params.delete("paid");
+    let toastMessage = "";
 
-        router.replace(`?${params.toString()}`);
-      }, 500);
+    if (searchParams.has("paid")) {
+      toastMessage = "Заказ успешно оплачен! Информация отправлена на почту.";
+    }
+
+    if (searchParams.has("verified")) {
+      toastMessage = "Почта успешно подтверждена!";
+    }
+
+    if (toastMessage) {
+      setTimeout(() => {
+        router.replace("/");
+        toast.success(toastMessage, {
+          duration: 3000,
+        });
+      }, 1000);
     }
   }, []);
 
