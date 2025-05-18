@@ -4,6 +4,7 @@ import {
   ProductsGroupList,
   Title,
   TopBar,
+  Stories
 } from "@/shared/components/shared";
 import { findPizzas, GetSearchParams } from "@/shared/lib";
 
@@ -26,6 +27,8 @@ export default async function Home({
       </Container>
 
       <TopBar categories={filteredCategories} />
+
+      <Stories/>
 
       <Container className="mt-9 pb-14">
         <div className="flex gap-[80px]">

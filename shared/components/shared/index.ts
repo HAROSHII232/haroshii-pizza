@@ -1,3 +1,4 @@
+import { Stories } from "./stories";
 export { CartButton } from "./cart-button";
 export { CartDrawer } from "./cart-drawer";
 export { CartDrawerItem } from "./cart-drawer-item";
@@ -37,6 +38,8 @@ export { Providers } from "./providers";
 export { InfoBlock } from "./info-block";
 
 export { ProfileForm } from "./profile-form";
+
+export { Stories } from "./stories";
 
 export * from "./checkout";
 export * from "./email-templates";
