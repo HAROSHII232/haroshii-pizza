@@ -10,6 +10,13 @@ const nunito = Nunito({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
+export const metadata = {
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -17,9 +24,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link data-rh="true" rel="icon" href="/favicon.ico" />
-      </head>
       <body className={nunito.className}>
         <Providers>{children}</Providers>
       </body>
