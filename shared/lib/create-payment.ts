@@ -22,7 +22,7 @@ export async function createPayment(details: Props) {
       },
       confirmation: {
         type: "redirect",
-        return_url: process.env.YOOKASSA_CALLBACK_URL, //TODO: Поставить ссылку на свой сайт
+        return_url: process.env.YOOKASSA_CALLBACK_URL, 
       },
     },
     {
